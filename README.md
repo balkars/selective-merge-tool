@@ -6,9 +6,7 @@ A focused web tool for **selective, file-level promotion between branches** (e.g
 
 No AI, no surprises: it's **deterministic code** that talks only to Azure DevOps over HTTPS.
 
-<p align="center">
-  <img src="screenshots/01-branches.png" alt="Branch selection" width="80%" />
-</p>
+
 
 ---
 
@@ -45,9 +43,7 @@ Branches  →  Folders  →  Diff  →  Create PR  →  Success
 4. **Create PR** — set title, description, and reviewers. The tool creates the working branch, pushes the selected files in one commit, and opens the PR.
 5. **Success** — links straight to the new Pull Request.
 
-<p align="center">
-  <img src="screenshots/04-folders.png" alt="Folder selection" width="80%" />
-</p>
+
 
 ---
 
