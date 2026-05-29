@@ -1,0 +1,22 @@
+# Secrets — never commit credentials / PATs
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Claude local settings (may contain machine-specific allow-lists)
+.claude/settings.local.json
+screenshots/01-branches.png
+screenshots/
