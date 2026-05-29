@@ -4,7 +4,7 @@
 
 A focused web tool for **selective, file-level promotion between branches** (e.g. `UAT → PRODUCTION`). Pick the folders you want, review a side-by-side diff of exactly what differs, then it creates a working branch, pushes the selected files in a single commit, and opens a Pull Request — all against the live Azure DevOps REST API.
 
-No AI, no magic, no surprises: it's **deterministic code** that talks only to Azure DevOps over HTTPS.
+No AI, no surprises: it's **deterministic code** that talks only to Azure DevOps over HTTPS.
 
 <p align="center">
   <img src="screenshots/01-branches.png" alt="Branch selection" width="80%" />
@@ -117,58 +117,8 @@ AZURE_PAT=your-personal-access-token
 PORT=3000
 ```
 
-> `.env` is already listed in `.gitignore`. It contains your PAT — treat it like a password and never commit it. Use [`.env.example`](.env.example) as a template.
+>  Use [`.env.example`](.env.example) as a template.
 
----
-
-## API reference
-
-The Express server exposes a small JSON API consumed by the frontend:
-
-| Method | Endpoint                | Purpose                                            |
-| ------ | ----------------------- | -------------------------------------------------- |
-| GET    | `/api/settings`         | Current connection (PAT masked)                    |
-| POST   | `/api/settings`         | Save connection settings                           |
-| POST   | `/api/test-connection`  | Validate org/project/repo/PAT                      |
-| GET    | `/api/branches`         | List branches with last-commit info               |
-| GET    | `/api/tree`             | Folder tree for a branch                           |
-| GET    | `/api/diff`             | Files that differ between source and target        |
-| GET    | `/api/file-diff`        | Line-level diff for one file + its last commit     |
-| GET    | `/api/reviewers`        | Suggested reviewers from the project team          |
-| POST   | `/api/create-pr`        | Create working branch, push files, open the PR     |
-
----
-
-## Project structure
-
-```
-.
-├── server.js              # Express backend / Azure DevOps proxy
-├── index.html             # App entry (loads JSX via Babel Standalone)
-├── app.jsx                # Wizard state machine / orchestrator
-├── shell.jsx              # TitleBar, AppBar, StatusBar
-├── icons.jsx              # SVG icon set
-├── styles.css / screens.css
-└── screens/
-    ├── settings.jsx       # Connection setup
-    ├── branch-setup.jsx   # Step 1 — branch selection
-    ├── folder-filter.jsx  # Step 2 — folder selection
-    ├── diff-viewer.jsx    # Step 3 — side-by-side diff
-    ├── pr-creation.jsx    # Step 4 — PR details
-    ├── success.jsx        # Result screen
-    └── help.jsx           # In-app Wiki
-```
-
----
-
-## Security
-
-- Your PAT is stored **only** in the local `.env` file and is sent **only** to the Azure DevOps REST API over HTTPS.
-- The tool performs no writes to your repository until you create the PR; the diff review is entirely read-only.
-- It never force-pushes and never commits directly to the target branch — all changes flow through a new working branch and a Pull Request.
-- If a PAT is ever exposed, **rotate it** in Azure DevOps immediately.
-
----
 
 ## License
 
