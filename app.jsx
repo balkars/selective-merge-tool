@@ -186,7 +186,7 @@ function App() {
         const files = data.files || [];
         setChangedFiles(files);
         setIncluded(new Set(files.map(f => f.id)));
-        setPRDesc(buildDescription(files));
+        setPRDesc(buildDescription(files, source, target));
       })
       .catch(err => showToast(err.message || "Failed to compute diff"))
       .finally(() => setDiffLoading(false));
@@ -217,8 +217,8 @@ function App() {
   const goToPR = useCallback(() => {
     setStep("pr");
     loadReviewers();
-    setPRDesc(buildDescription(changedFiles.filter(f => included.has(f.id))));
-  }, [changedFiles, included]);
+    setPRDesc(buildDescription(changedFiles.filter(f => included.has(f.id)), source, target));
+  }, [changedFiles, included, source, target]);
 
   const createPR = useCallback(async () => {
     const files = changedFiles
@@ -415,7 +415,7 @@ function App() {
   );
 }
 
-function buildDescription(files) {
+function buildDescription(files, source = '', target = '') {
   const lines = (files || []).slice(0, 8).map(f =>
     `- \`${f.path}\`${f.change === "add" ? " *(new)*" : f.change === "del" ? " *(deleted)*" : ""}`
   );
